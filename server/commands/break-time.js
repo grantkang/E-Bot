@@ -64,7 +64,8 @@ module.exports = {
 				message.channel.send('UzBot: I\'m already on..');
 			}
 			else {
-				this.isOn === true;
+				console.log(`${message.author.username} turned on Uzbot!`);
+				this.isOn = true;
 				this.start(message);
 				message.channel.send('UzBot: Turning on..');
 			}
@@ -74,6 +75,7 @@ module.exports = {
 				message.channel.send('UzBot: I\'m already off..');
 			}
 			else {
+				console.log(`${message.author.username} turned off Uzbot!`);
 				clearInterval(this.timer);
 				this.timer = null;
 				this.isOn = false;
@@ -90,8 +92,8 @@ module.exports = {
 		this.timer = setInterval(()=> this.runEvent(message), this.nextTime);
 	},
 	runEvent(message) {
-		if(!this.isOn) return;
 		clearInterval(this.timer);
+		if(!this.isOn) return;
 		this.nextTime = uzEvents[this.index++ % uzEvents.length](message);
 		this.timer = setInterval(()=>this.runEvent(message), this.nextTime);
 	},
