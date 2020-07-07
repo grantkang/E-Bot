@@ -3,11 +3,12 @@ const START_COMMAND = 'start';
 const FULL_DAY_MILLISECONDS = 86400000;
 const HOUR_MILLISECONDS = 36000000;
 
+// TODO: Repeatedly recursively calling setInterval probably isn't a good idea. Find a better solution.
 
 const calculateNextDay = () => {
 	const today = new Date();
 	const nextDay = new Date();
-	nextDay.setHours(8, 0, 0, 0);
+	nextDay.setHours(11, 0, 0, 0);
 	if (today.getDay() < 5) {
 		return nextDay.getTime() + FULL_DAY_MILLISECONDS - today.getTime();
 	}
@@ -22,7 +23,7 @@ const uzEvents = [
 		return HOUR_MILLISECONDS * 1.5;
 	},
 	(message) => {
-		message.channel.send('@everyone Hello everybody. Take a break if you haven\'t already');
+		message.channel.send('@everyone Hello everybody. Take a break if you haven\'t already.');
 		return HOUR_MILLISECONDS;
 	},
 	(message) => {
@@ -34,15 +35,15 @@ const uzEvents = [
 		return HOUR_MILLISECONDS;
 	},
 	(message) => {
-		message.channel.send('@everyone Hello everybody. Take a break if you haven\'t already');
+		message.channel.send('@everyone Hello everybody. Take a break if you haven\'t already.');
 		return HOUR_MILLISECONDS * 1.25;
 	},
 	(message) => {
-		message.channel.send('@everyone Last break for the day!');
+		message.channel.send('@everyone Last break for the day! Home stretch!');
 		return HOUR_MILLISECONDS * 1.25;
 	},
 	(message) => {
-		let goodbyeMessage = 'Good work everybody!';
+		let goodbyeMessage = '@everyone Good work everybody!';
 		const nextTime = calculateNextDay();
 		goodbyeMessage += nextTime > FULL_DAY_MILLISECONDS ? ' Hope ya\'ll have a nice weekend!' : 'See everybody tomorrow!';
 		message.channel.send(goodbyeMessage);
