@@ -1,7 +1,7 @@
 const STOP_COMMAND = 'stop';
 const START_COMMAND = 'start';
 const FULL_DAY_MILLISECONDS = 86400000;
-const HOUR_MILLISECONDS = 36000000;
+const HOUR_MILLISECONDS = 3600000;
 
 // TODO: Repeatedly recursively calling setInterval probably isn't a good idea. Find a better solution.
 
