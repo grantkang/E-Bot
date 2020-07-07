@@ -3,7 +3,6 @@ const START_COMMAND = 'start';
 const FULL_DAY_MILLISECONDS = 86400000;
 const HOUR_MILLISECONDS = 36000000;
 
-const snooze = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const calculateNextDay = () => {
 	const today = new Date();
@@ -88,12 +87,12 @@ module.exports = {
 	start(message) {
 		this.index = 0;
 		this.nextTime = calculateNextDay();
-		this.timer = setInterval(
-			async () => {
-				console.log(this.index);
-				const sleepTime = uzEvents[this.index++ % uzEvents.length](message);
-				await snooze(sleepTime);
-			},
-			1000);
+		this.timer = setInterval(()=> this.runEvent(message), this.nextTime);
+	},
+	runEvent(message) {
+		if(!this.isOn) return;
+		clearInterval(this.timer);
+		this.nextTime = uzEvents[this.index++ % uzEvents.length](message);
+		this.timer = setInterval(()=>this.runEvent(message), this.nextTime);
 	},
 };
