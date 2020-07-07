@@ -1,14 +1,18 @@
 const fs = require('fs');
+const path = require('path');
 const Discord = require('discord.js');
 const { prefix, token } = require('../config.json');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
-const commandFiles = fs.readdirSync('./server/commands/enabled').filter(file => file.endsWith('.js'));
+const commandLinks = fs.readdirSync('./server/commands/enabled').filter(file => file.endsWith('.js'));
 
-for (const file of commandFiles) {
-	const command = require(`./commands/enabled/${file}`);
+console.log(commandLinks);
+
+for (const link of commandLinks) {
+	const file = fs.readlinkSync(path.join('./server/commands/enabled/', link));
+	const command = require(`./commands/${file}`);
 	client.commands.set(command.name, command);
 }
 
