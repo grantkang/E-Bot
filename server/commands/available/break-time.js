@@ -1,3 +1,6 @@
+const Discord = require('discord.js');
+const fetch = require('node-fetch');
+
 const STOP_COMMAND = 'stop';
 const START_COMMAND = 'start';
 const FULL_DAY_MILLISECONDS = 86400000;
@@ -17,37 +20,40 @@ const calculateNextDay = () => {
 	}
 };
 
+const uzEvent = (message, content, time) => {
+	fetch('https://anime-reactions.uzairashraf.dev/api/reactions/random')
+		.then(result => result.json())
+		.then(data => {
+			const attachment = new Discord.MessageAttachment(data.reaction);
+			message.channel.send(content, attachment);
+		});
+	return time;
+};
+
 const uzEvents = [
 	(message) => {
-		message.channel.send('@everyone Good morning coders. If you\'ve been working before standup, please take a break!');
-		return HOUR_MILLISECONDS * 1.5;
+		return uzEvent(message, '@everyone Good morning coders. If you\'ve been working before standup, please take a break!', HOUR_MILLISECONDS * 1.5);
 	},
 	(message) => {
-		message.channel.send('@everyone Hello everybody. Take a break if you haven\'t already.');
-		return HOUR_MILLISECONDS;
+		return uzEvent(message, '@everyone Hello everybody. Take a break if you haven\'t already.', HOUR_MILLISECONDS);
 	},
 	(message) => {
-		message.channel.send('@everyone Everybody, it\'s time for lunch! Be back in an hour.');
-		return HOUR_MILLISECONDS;
+		return uzEvent(message, '@everyone Everybody, it\'s time for lunch! Be back in an hour.', HOUR_MILLISECONDS);
 	},
 	(message) => {
-		message.channel.send('@everyone Welcome back everybody. Time to get back to work!');
-		return HOUR_MILLISECONDS;
+		return uzEvent(message, '@everyone Welcome back everybody. Time to get back to work!', HOUR_MILLISECONDS);
 	},
 	(message) => {
-		message.channel.send('@everyone Hello everybody. Take a break if you haven\'t already.');
-		return HOUR_MILLISECONDS * 1.25;
+		return uzEvent(message, '@everyone Hello everybody.Take a break if you haven\'t already.', HOUR_MILLISECONDS * 1.25);
 	},
 	(message) => {
-		message.channel.send('@everyone Last break for the day! Home stretch!');
-		return HOUR_MILLISECONDS * 1.25;
+		return uzEvent(message, '@everyone Last break for the day! Home stretch!', HOUR_MILLISECONDS * 1.25);
 	},
 	(message) => {
 		let goodbyeMessage = '@everyone Good work everybody!';
 		const nextTime = calculateNextDay();
 		goodbyeMessage += nextTime > FULL_DAY_MILLISECONDS ? ' Hope ya\'ll have a nice weekend!' : 'See everybody tomorrow!';
-		message.channel.send(goodbyeMessage);
-		return nextTime;
+		return uzEvent(message, goodbyeMessage, nextTime);
 	},
 ];
 
