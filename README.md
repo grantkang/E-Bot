@@ -24,7 +24,7 @@ Rated E for everyone.
 
 1. Clone the repository
     ```shell
-    $ git clone https://github.com/EricL0wry/crm-platform.git
+    $ git clone https://github.com/grantkang/E-Bot.git
     ```
 2. Once inside the project directory, install the dependencies
     ```shell
