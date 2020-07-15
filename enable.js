@@ -3,7 +3,7 @@ const path = require('path');
 
 const commandFiles = process.argv.slice(2);
 
-const availablePath = './server/commands/available/';
+const availablePath = '../available/';
 const enabledPath = './server/commands/enabled/';
 
 commandFiles.forEach(file => {
