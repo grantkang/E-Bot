@@ -12,7 +12,7 @@ console.log(commandLinks);
 
 for (const link of commandLinks) {
 	const file = fs.readlinkSync(path.join('./server/commands/enabled/', link));
-	const command = require(`./commands/${file}`);
+	const command = require(`./commands/available/${file}`);
 	client.commands.set(command.name, command);
 }
 
