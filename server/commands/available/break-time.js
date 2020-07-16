@@ -20,8 +20,9 @@ const calculateNextDay = () => {
 	}
 };
 
-const uzEvent = (message, content, time) => {
-	fetch('https://anime-reactions.uzairashraf.dev/api/reactions/random')
+const uzEvent = (message, content, time, imageCategory) => {
+	const categoryParam = imageCategory ? `?category=${imageCategory}` : '';
+	fetch(`https://anime-reactions.uzairashraf.dev/api/reactions/random${categoryParam}`)
 		.then(result => result.json())
 		.then(data => {
 			const attachment = new Discord.MessageAttachment(data.reaction);
@@ -38,7 +39,7 @@ const uzEvents = [
 		return uzEvent(message, '@everyone Hello everybody. Take a break if you haven\'t already.', HOUR_MILLISECONDS);
 	},
 	(message) => {
-		return uzEvent(message, '@everyone Everybody, it\'s time for lunch! Be back in an hour.', HOUR_MILLISECONDS);
+		return uzEvent(message, '@everyone Everybody, it\'s time for lunch! Be back in an hour.', HOUR_MILLISECONDS, 'lunch-break-time');
 	},
 	(message) => {
 		return uzEvent(message, '@everyone Welcome back everybody. Time to get back to work!', HOUR_MILLISECONDS);
